@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -64,8 +65,8 @@ public class ClientEvents implements IEvents {
         ClientEntityJoinEvent.INSTANCE.invoke(entity, level);
     }
 
-    private void handleRenderTooltip(Screen screen, PoseStack poseStack, ItemStack itemStack, List<ClientTooltipComponent> lines, int x, int y) {
-        TooltipRenderEvent.INSTANCE.invoke(poseStack, lines, x, y, itemStack);
+    private void handleRenderTooltip(GuiGraphics guiGraphics, ItemStack itemStack, List<ClientTooltipComponent> lines, int x, int y) {
+        TooltipRenderEvent.INSTANCE.invoke(guiGraphics, lines, x, y, itemStack);
     }
 
     private void handlePlaySound(SoundEngine soundEngine, SoundInstance soundInstance) {
@@ -91,9 +92,9 @@ public class ClientEvents implements IEvents {
             handler -> handler.run(atlas, addSprite));
     }
 
-    private void handleHudRender(PoseStack poseStack, float tickDelta) {
+    private void handleHudRender(GuiGraphics guiGraphics, float tickDelta) {
         HudRenderEvent.INSTANCE.getHandlers().forEach(
-            handler -> handler.run(poseStack, tickDelta));
+            handler -> handler.run(guiGraphics, tickDelta));
     }
 
     private void handleRenderScreen(AbstractContainerScreen<?> container, PoseStack poseStack, int mouseX, int mouseY) {
