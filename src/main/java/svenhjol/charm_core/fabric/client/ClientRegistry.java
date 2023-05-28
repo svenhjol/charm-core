@@ -33,6 +33,8 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -123,11 +125,13 @@ public class ClientRegistry implements IClientRegistry {
     @SuppressWarnings("UnstableApiUsage")
     @Override
     public <T extends ItemLike> void itemTab(Supplier<T> item, CreativeModeTab tab, @Nullable ItemLike showAfter) {
+        ResourceKey<CreativeModeTab> key = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(tab).orElseThrow();
+        
         if (showAfter != null) {
-            ItemGroupEvents.modifyEntriesEvent(tab)
+            ItemGroupEvents.modifyEntriesEvent(key)
                 .register(entries -> entries.addAfter(showAfter, item.get()));
         } else {
-            ItemGroupEvents.modifyEntriesEvent(tab)
+            ItemGroupEvents.modifyEntriesEvent(key)
                 .register(entries -> entries.accept(item.get()));
         }
     }
