@@ -28,6 +28,7 @@
     "recipe_book.RecipeBookLookupMixin",
     "render_held_item_callback.ItemInHandRendererMixin",
     "render_screen_callback.AbstractContainerScreenMixin",
+    "render_tooltip_callback.GuiGraphicsMixin",
     "render_tooltip_callback.ScreenMixin",
     "setup_screen_callback.ScreenMixin"
   ],
