@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
+import svenhjol.charm_core.mixin.accessor.EntityAccessor;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -39,8 +40,13 @@ public class GenericTradeOffers {
         @Nullable
         @Override
         public MerchantOffer getOffer(Entity merchant, RandomSource random) {
-            var blocks = TagHelper.getValues(merchant.level.registryAccess().registryOrThrow(tag.registry()), tag);
-            if (blocks.isEmpty()) return null;
+            var level = ((EntityAccessor) merchant).getLevel();
+            var blocks = TagHelper.getValues(level.registryAccess()
+                .registryOrThrow(tag.registry()), tag);
+
+            if (blocks.isEmpty()) {
+                return null;
+            }
 
             return new MerchantOffer(
                 getStackFromList(random, blocks, baseCost, extraCost),
@@ -80,8 +86,10 @@ public class GenericTradeOffers {
         @Nullable
         @Override
         public MerchantOffer getOffer(Entity merchant, RandomSource random) {
-            var values1 = TagHelper.getValues(merchant.level.registryAccess().registryOrThrow(tag1.registry()), tag1);
-            var values2 = TagHelper.getValues(merchant.level.registryAccess().registryOrThrow(tag2.registry()), tag2);
+            var level = ((EntityAccessor) merchant).getLevel();
+
+            var values1 = TagHelper.getValues(level.registryAccess().registryOrThrow(tag1.registry()), tag1);
+            var values2 = TagHelper.getValues(level.registryAccess().registryOrThrow(tag2.registry()), tag2);
             if (values1.isEmpty() || values2.isEmpty()) return null;
 
             return new MerchantOffer(
@@ -157,7 +165,9 @@ public class GenericTradeOffers {
         @Nullable
         @Override
         public MerchantOffer getOffer(Entity merchant, RandomSource random) {
-            var blocks = TagHelper.getValues(merchant.level.registryAccess().registryOrThrow(tag.registry()), tag);
+            var level = ((EntityAccessor) merchant).getLevel();
+            var blocks = TagHelper.getValues(level.registryAccess()
+                .registryOrThrow(tag.registry()), tag);
 
             return new MerchantOffer(
                 getStack(random, Items.EMERALD, baseEmeralds, extraEmeralds),

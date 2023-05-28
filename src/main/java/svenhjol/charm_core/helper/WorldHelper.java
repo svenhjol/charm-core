@@ -1,30 +1,36 @@
 package svenhjol.charm_core.helper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.material.Material;
+import svenhjol.charm_core.mixin.accessor.EntityAccessor;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
 public class WorldHelper {
     public static boolean isDay(Player player) {
-        var dayTime = player.level.getDayTime() % 24000;
+        var level = ((EntityAccessor) player).getLevel();
+        var dayTime = level.getDayTime() % 24000;
         return dayTime >= 0 && dayTime < 12700;
     }
 
     public static boolean isNight(Player player) {
-        var dayTime = player.level.getDayTime() % 24000;
+        var level = ((EntityAccessor) player).getLevel();
+        var dayTime = level.getDayTime() % 24000;
         return dayTime >= 12700;
     }
 
     public static boolean isThundering(Player player) {
-        return player.level.isThundering();
+        var level = ((EntityAccessor) player).getLevel();
+        return level.isThundering();
     }
 
     public static boolean isOutside(Player player) {
+        var level = ((EntityAccessor) player).getLevel();
         if (player.isUnderWater()) return false;
 
         var blocks = 24;
@@ -32,34 +38,34 @@ public class WorldHelper {
 
         var playerPos = player.blockPosition();
 
-        if (player.level.canSeeSky(playerPos)) return true;
-        if (player.level.canSeeSkyFromBelowWater(playerPos)) return true;
+        if (level.canSeeSky(playerPos)) return true;
+        if (level.canSeeSkyFromBelowWater(playerPos)) return true;
 
         for (int i = start; i < start + blocks; i++) {
             var check = new BlockPos(playerPos.getX(), playerPos.getY() + i, playerPos.getZ());
-            var state = player.level.getBlockState(check);
+            var state = level.getBlockState(check);
             var block = state.getBlock();
 
-            if (player.level.isEmptyBlock(check)) continue;
+            if (level.isEmptyBlock(check)) continue;
 
-            // TODO: configurable clear blocks
-            if (state.getMaterial() == Material.GLASS
-                || (block instanceof RotatedPillarBlock && state.getMaterial() == Material.WOOD)
+            // TODO: Tag for glass here
+            if (state.is(Blocks.GLASS)
+                || (block instanceof RotatedPillarBlock && state.is(BlockTags.LOGS))
                 || block instanceof LeavesBlock
                 || block instanceof HugeMushroomBlock
                 || block instanceof StemBlock
             ) continue;
 
-            if (player.level.canSeeSky(check)) return true;
-            if (player.level.canSeeSkyFromBelowWater(check)) return true;
+            if (level.canSeeSky(check)) return true;
+            if (level.canSeeSkyFromBelowWater(check)) return true;
             if (state.canOcclude()) return false;
         }
 
-        return player.level.canSeeSky(playerPos.above(blocks));
+        return level.canSeeSky(playerPos.above(blocks));
     }
 
     public static float distanceFromGround(Player player, int check) {
-        var level = player.getLevel();
+        var level = ((EntityAccessor) player).getLevel();
         var pos = player.blockPosition();
         var playerHeight = pos.getY();
 
@@ -80,7 +86,8 @@ public class WorldHelper {
     }
 
     public static boolean isBelowSeaLevel(Player player) {
-        return player.blockPosition().getY() < player.level.getSeaLevel();
+        var level = ((EntityAccessor) player).getLevel();
+        return player.blockPosition().getY() < level.getSeaLevel();
     }
 
     public static double getDistanceSquared(BlockPos pos1, BlockPos pos2) {
