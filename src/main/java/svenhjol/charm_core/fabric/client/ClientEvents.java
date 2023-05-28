@@ -97,9 +97,9 @@ public class ClientEvents implements IEvents {
             handler -> handler.run(guiGraphics, tickDelta));
     }
 
-    private void handleRenderScreen(AbstractContainerScreen<?> container, PoseStack poseStack, int mouseX, int mouseY) {
+    private void handleRenderScreen(AbstractContainerScreen<?> container, GuiGraphics guiGraphics, int mouseX, int mouseY) {
         ScreenRenderEvent.INSTANCE.getHandlers().forEach(
-            handler -> handler.run(container, poseStack, mouseX, mouseY));
+            handler -> handler.run(container, guiGraphics, mouseX, mouseY));
     }
 
     private void handleSetupScreen(Screen screen) {
