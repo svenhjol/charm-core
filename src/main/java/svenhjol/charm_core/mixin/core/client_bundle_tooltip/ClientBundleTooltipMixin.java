@@ -11,7 +11,7 @@ import svenhjol.charm_core.iface.ITooltipGrid;
 
 @Mixin({ClientBundleTooltip.class})
 public class ClientBundleTooltipMixin {
-    private static BundleTooltip storedBundleTooltip;
+    private static BundleTooltip bundleTooltipHolder;
 
     public ClientBundleTooltipMixin() {
     }
@@ -21,7 +21,7 @@ public class ClientBundleTooltipMixin {
         at = {@At("TAIL")}
     )
     private void hookInit(BundleTooltip bundleTooltip, CallbackInfo ci) {
-        storedBundleTooltip = bundleTooltip;
+        bundleTooltipHolder = bundleTooltip;
     }
 
     @Inject(
@@ -30,8 +30,8 @@ public class ClientBundleTooltipMixin {
         cancellable = true
     )
     private void hookGridSizeX(CallbackInfoReturnable<Integer> cir) {
-        if (storedBundleTooltip instanceof ITooltipGrid) {
-            cir.setReturnValue(((ITooltipGrid)storedBundleTooltip).gridSizeX());
+        if (bundleTooltipHolder instanceof ITooltipGrid) {
+            cir.setReturnValue(((ITooltipGrid) bundleTooltipHolder).gridSizeX());
         }
 
     }
@@ -42,8 +42,8 @@ public class ClientBundleTooltipMixin {
         cancellable = true
     )
     private void hookGridSizeY(CallbackInfoReturnable<Integer> cir) {
-        if (storedBundleTooltip instanceof ITooltipGrid) {
-            cir.setReturnValue(((ITooltipGrid)storedBundleTooltip).gridSizeY());
+        if (bundleTooltipHolder instanceof ITooltipGrid) {
+            cir.setReturnValue(((ITooltipGrid) bundleTooltipHolder).gridSizeY());
         }
 
     }
