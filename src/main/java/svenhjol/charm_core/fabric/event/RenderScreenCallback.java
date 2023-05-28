@@ -1,16 +1,16 @@
 package svenhjol.charm_core.fabric.event;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 
 public interface RenderScreenCallback {
-    Event<RenderScreenCallback> EVENT = EventFactory.createArrayBacked(RenderScreenCallback.class, listeners -> (container, poseStack, mouseX, mouseY) -> {
+    Event<RenderScreenCallback> EVENT = EventFactory.createArrayBacked(RenderScreenCallback.class, listeners -> (container, guiGraphics, mouseX, mouseY) -> {
         for (RenderScreenCallback listener : listeners) {
-            listener.interact(container, poseStack, mouseX, mouseY);
+            listener.interact(container, guiGraphics, mouseX, mouseY);
         }
     });
 
-    void interact(AbstractContainerScreen<?> container, PoseStack poseStack, int mouseX, int mouseY);
+    void interact(AbstractContainerScreen<?> container, GuiGraphics guiGraphics, int mouseX, int mouseY);
 }

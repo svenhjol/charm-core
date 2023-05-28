@@ -1,6 +1,6 @@
 package svenhjol.charm_core.fabric.mixin.render_screen_callback;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,10 +18,10 @@ public class AbstractContainerScreenMixin {
         method = "render",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderLabels(Lcom/mojang/blaze3d/vertex/PoseStack;II)V"
+            target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderLabels(Lnet/minecraft/client/gui/GuiGraphics;II)V"
         )
     )
-    private void hookRender(PoseStack poseStack, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        RenderScreenCallback.EVENT.invoker().interact((AbstractContainerScreen<?>)(Object)this, poseStack, mouseX, mouseY);
+    private void hookRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        RenderScreenCallback.EVENT.invoker().interact((AbstractContainerScreen<?>)(Object)this, guiGraphics, mouseX, mouseY);
     }
 }
