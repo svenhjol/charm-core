@@ -4,7 +4,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
-import net.minecraft.world.level.material.Material;
 import svenhjol.charm_api.iface.IVariantMaterial;
 import svenhjol.charm_core.base.CharmBlockItem;
 import svenhjol.charm_core.base.CharmFeature;
@@ -16,7 +15,7 @@ public class CharmSaplingBlock extends SaplingBlock {
     protected final IVariantMaterial variantMaterial;
 
     public CharmSaplingBlock(CharmFeature feature, IVariantMaterial material, AbstractTreeGrower generator) {
-        super(generator, Properties.of(Material.PLANT)
+        super(generator, Properties.of()
             .noCollission()
             .randomTicks()
             .instabreak()

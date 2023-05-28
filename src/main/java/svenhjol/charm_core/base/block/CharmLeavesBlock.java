@@ -3,7 +3,6 @@ package svenhjol.charm_core.base.block;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import svenhjol.charm_api.iface.IVariantMaterial;
 import svenhjol.charm_core.base.CharmBlockItem;
 import svenhjol.charm_core.base.CharmFeature;
@@ -16,7 +15,7 @@ public class CharmLeavesBlock extends LeavesBlock implements IIgniteProvider {
     protected final IVariantMaterial variantMaterial;
 
     public CharmLeavesBlock(CharmFeature feature, IVariantMaterial material) {
-        super(Properties.of(Material.DEPRECATED_NOTSOLIDBLOCKING)
+        super(Properties.of()
             .strength(0.2F)
             .randomTicks()
             .sound(SoundType.GRASS)
