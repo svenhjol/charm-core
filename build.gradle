@@ -42,7 +42,7 @@ dependencies {
     modImplementation "svenhjol.charm:charm_api-fabric-${props.minecraft_version}:${props.api_version}"
 }
 
-build.dependsOn downloadApi
+build.dependsOn downloadCharmApi
 
 //loom {
 //    accessWidenerPath = file("src/main/resources/${props.mod_id}.accesswidener")
@@ -66,7 +66,7 @@ build.dependsOn downloadApi
 //    it.options.release = 17
 //}
 
-//tasks.register('downloadApi') {
+//tasks.register('downloadCharmApi') {
 //    File dir = new File('libs')
 //    if (!dir.exists()) {
 //        dir.mkdir()
@@ -81,7 +81,7 @@ build.dependsOn downloadApi
 //    }
 //}
 
-//build.dependsOn downloadApi
+//build.dependsOn downloadCharmApi
 //
 //repositories {
 //    flatDir {
