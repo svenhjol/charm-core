@@ -3,39 +3,12 @@ plugins {
     id 'maven-publish'
 }
 
-//sourceCompatibility = JavaVersion.VERSION_17
-//targetCompatibility = JavaVersion.VERSION_17
-
-//// Load props from parent gradle.properties.
-//def props = new Properties()
-//file("common/gradle.properties").withInputStream { props.load(it) }
-//
-//archivesBaseName = "${props.mod_id}-fabric-${props.minecraft_version}"
-//version = props.mod_version
-//group = props.maven_group
-
-apply from: "https://charmony.work/fabric.build.gradle"
+apply from: "https://charmony.work/tasks/fabric.build.gradle"
+apply from: "https://charmony.work/tasks/fabric.api-task.gradle"
 
 // Load props from common gradle.properties.
 def props = new Properties()
 file("common/gradle.properties").withInputStream { props.load(it) }
-
-//archivesBaseName = "${props.mod_id}-fabric-${props.minecraft_version}"
-//version = props.mod_version
-//group = props.maven_group
-
-//sourceSets {
-//    main {
-//        java {
-//            srcDir "common/src/main/java"
-//            srcDir "src/main/java"
-//        }
-//        resources {
-//            srcDir "common/src/main/resources"
-//            srcDir 'src/main/resources'
-//        }
-//    }
-//}
 
 dependencies {
     // Depend on Charm API.
@@ -43,62 +16,3 @@ dependencies {
 }
 
 build.dependsOn downloadCharmApi
-
-//loom {
-//    accessWidenerPath = file("src/main/resources/${props.mod_id}.accesswidener")
-//}
-
-//processResources {
-//    inputs.property "version", props.mod_version
-//
-//    filesMatching("fabric.mod.json") {
-//        expand "version": props.mod_version
-//    }
-//
-//    filesMatching([props.mod_id + ".mixins.json", props.mod_id + ".fabric.mixins.json"]) {
-//        expand "refmap_file": props.mod_id + "-fabric-${props.minecraft_version}" + "-refmap.json"
-//    }
-//
-//    duplicatesStrategy(DuplicatesStrategy.INCLUDE)
-//}
-
-//tasks.withType(JavaCompile).configureEach {
-//    it.options.release = 17
-//}
-
-//tasks.register('downloadCharmApi') {
-//    File dir = new File('libs')
-//    if (!dir.exists()) {
-//        dir.mkdir()
-//    }
-//
-//    def apiJarName = "charm_api-fabric-${props.minecraft_version}-${props.api_version}.jar"
-//    File apiFile = new File("libs/${apiJarName}")
-//
-//    if (!apiFile.exists()) {
-//        def url = new URL("https://charmony.work/files/${apiJarName}")
-//        new File("libs/${url.file[url.file.lastIndexOf('/')..<url.file.length()]}") << url.newInputStream()
-//    }
-//}
-
-//build.dependsOn downloadCharmApi
-//
-//repositories {
-//    flatDir {
-//        dir 'libs'
-//    }
-//}
-
-//jar {
-//    from("LICENSE") {
-//        rename { "${it}_${project.archivesBaseName}"}
-//    }
-//}
-//
-//publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            from components.java
-//        }
-//    }
-//}
