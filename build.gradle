@@ -1,0 +1,30 @@
+buildscript {
+    dependencies {
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7+'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.1.+'
+}
+
+apply from: "https://charmony.work/tasks/forge.build.gradle"
+apply from: "https://charmony.work/tasks/forge.task-api.gradle"
+
+// Load props from parent gradle.properties.
+def props = new Properties()
+file("common/gradle.properties").withInputStream { props.load(it) }
+
+dependencies {
+    // Example jarjar implementation.
+//    implementation (group: 'svenhjol', name: 'charm_api-forge-1.19.3', version: '[5.0.0,)') {
+//        jarJar.pin(it, '5.0.0')
+//    }
+
+    implementation fg.deobf("svenhjol:charm_api-forge-${props.minecraft_version}:${props.api_version}")
+}
+
+build.dependsOn downloadCharmApi
