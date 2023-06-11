@@ -1,0 +1,7 @@
+.DS_Store
+.gradle
+.idea
+/libs/
+/build/
+/common
+/run/
