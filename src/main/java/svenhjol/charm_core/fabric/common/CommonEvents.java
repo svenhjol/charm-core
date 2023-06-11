@@ -58,8 +58,8 @@ public class CommonEvents implements IEvents {
         return EntityAttackEvent.INSTANCE.invoke(player, level, handle, entity, hitResult);
     }
 
-    private void handleLootTableModify(ResourceManager resourceManager, LootDataManager lootTables, ResourceLocation id, LootTable.Builder supplier, LootTableSource lootTableSource) {
-        LootTableModifyEvent.INSTANCE.invoke(lootTables, id, supplier::withPool);
+    private void handleLootTableModify(ResourceManager resourceManager, LootDataManager dataManager, ResourceLocation id, LootTable.Builder supplier, LootTableSource lootTableSource) {
+        LootTableModifyEvent.INSTANCE.invoke(dataManager, id, supplier::withPool);
     }
 
     private void handlePlayerTick(Player player) {
